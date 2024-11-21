@@ -57,8 +57,8 @@ def extract_drug_features(row, drug_data):
     Trích xuất đặc trưng cho một cặp thuốc
     """
     try:
-        drug_info_df = drug_data['Supplemental_Table_S2.xlsx']
-        ddi_df = drug_data['Supplemental_Table_S3.xlsx']
+        drug_info_df = drug_data['/kaggle/working/DDI_AI/Supplemental_Table_S2.xlsx']
+        ddi_df = drug_data['/kaggle/working/DDI_AI/Supplemental_Table_S3.xlsx']
         
         # Trích xuất features cho từng thuốc
         drug1_features = extract_single_drug_features(
@@ -93,6 +93,8 @@ def preprocess_and_save_data():
     """
     Xử lý dữ liệu một lần và lưu vào file
     """
+    # Điều chỉnh đường dẫn cho Kaggle
+    save_path = '/kaggle/working/processed_data.pkl'
     excel_files = [
         '/kaggle/working/DDI_AI/Supplemental_Table_S1.xlsx',
         '/kaggle/working/DDI_AI/Supplemental_Table_S2.xlsx',
@@ -143,18 +145,21 @@ def preprocess_and_save_data():
         'num_classes': len(unique_ddi_types)
     }
     
-    with open('processed_data.pkl', 'wb') as f:
+    # Lưu với đường dẫn mới
+    with open(save_path, 'wb') as f:
         pickle.dump(processed_data, f)
     
-    print("\nĐã lưu dữ liệu đã xử lý vào 'processed_data.pkl'")
+    print(f"\nĐã lưu dữ liệu đã xử lý vào '{save_path}'")
     return processed_data
 
 def load_processed_data():
     """
     Load dữ liệu đã xử lý từ file
     """
+    # Điều chỉnh đường dẫn cho Kaggle
+    save_path = '/kaggle/working/processed_data.pkl'
     try:
-        with open('processed_data.pkl', 'rb') as f:
+        with open(save_path, 'rb') as f:
             data = pickle.load(f)
         print("Đã load dữ liệu đã xử lý từ file")
         return data
